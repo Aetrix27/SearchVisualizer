@@ -17,11 +17,12 @@ w = width//cols
 h = height//rows
 
 grid = []
-queue, visited = deque(), []
+queue = deque()
+visited = []
 path = []
 
 
-class Spot:
+class Grid:
     def __init__(self, i, j):
         self.x, self.y = i, j
         self.f, self.g, self.h = 0, 0, 0
@@ -47,12 +48,6 @@ class Spot:
             self.neighbors.append(grid[self.x][self.y-1])
 
 
-def clickWall(pos, state):
-    i = pos[0] // w
-    j = pos[1] // h
-    grid[i][j].wall = state
-
-
 def place(pos):
     i = pos[0] // w
     j = pos[1] // h
@@ -62,7 +57,7 @@ def place(pos):
 for i in range(cols):
     arr = []
     for j in range(rows):
-        arr.append(Spot(i, j))
+        arr.append(Grid(i, j))
     grid.append(arr)
 
 for i in range(cols):
@@ -82,28 +77,34 @@ start.visited = True
 def main():
     flag = False
     noflag = True
-    startflag = False
-    if startflag:
-        nod
+    start = False
+    # if startflag:
+    # queue.popleft()
+    # while queue
+    # grid[rows+1][cols+1]
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.K_RETURN:
+                # if event.key == pygame.K_RETURN:
+                start = True
 
         window.fill((0, 20, 20))
         for i in range(cols):
             for j in range(rows):
-                spot = grid[i][j]
-                spot.show(window, (255, 255, 255))
-                if spot in path:
-                    spot.show(window, (25, 120, 250))
-                elif spot.visited:
-                    spot.show(window, (255, 0, 0))
-                if spot in queue:
-                    spot.show(window, (0, 255, 0))
-                if spot == end:
-                    spot.show(window, (0, 120, 255))
+                index = grid[i][j]
+                index.show(window, (255, 255, 255))
+                if index in path:
+                    index.show(window, (25, 120, 250))
+                elif index.visited:
+                    index.show(window, (255, 0, 0))
+                if index in queue:
+                    index.show(window, (0, 255, 0))
+                if index == end:
+                    index.show(window, (0, 120, 255))
 
         pygame.display.flip()
 
