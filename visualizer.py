@@ -24,8 +24,11 @@ path = []
 
 class Grid:
     def __init__(self, i, j):
-        self.x, self.y = i, j
-        self.f, self.g, self.h = 0, 0, 0
+        self.x = i
+        self.y = j
+        self.f = 0
+        self.g = 0
+        self.h = 0
         self.neighbors = []
 
         self.visited = False
@@ -66,6 +69,7 @@ for i in range(cols):
 
 
 start = grid[cols//2][rows//2]
+
 end = grid[cols-1][rows - cols//2]
 start.wall = False
 end.wall = False
@@ -75,22 +79,31 @@ start.visited = True
 
 
 def main():
+    start = grid[cols//2][rows//2]
     flag = False
     noflag = True
-    start = False
-    # if startflag:
-    # queue.popleft()
-    # while queue
-    # grid[rows+1][cols+1]
+    searchStarted = False
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.K_RETURN:
-                # if event.key == pygame.K_RETURN:
-                start = True
+            if event.type == pygame.KEYDOWN:
+                searchStarted = True
+        if searchStarted:
+            if len(queue) > 0:
+                current = queue.popleft()
+                # if current == end:
+                #    return
+                # if queue[0]+1 is not None:
+                #    current = grid[row+1][col]
+                #queue.visited = True
+                # if flag == False:
+                for i in current.neighbors:
+                    if not i.visited:
+                        i.visited = True
+                        queue.append(i)
 
         window.fill((0, 20, 20))
         for i in range(cols):
