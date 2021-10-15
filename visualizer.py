@@ -1,4 +1,3 @@
-
 import sys
 from collections import deque
 import pygame
@@ -29,11 +28,8 @@ class Grid:
 
         self.visited = False
         self.prev = None
-        self.wall = False
 
     def show(self, window, col):
-        if self.wall == True:
-            col = (0, 0, 0)
         pygame.draw.rect(window, col, (self.x*w, self.y*h, w-1, h-1))
 
     def add_neighbors(self, grid):
@@ -60,16 +56,14 @@ for i in range(cols):
 
 start = grid[cols//2][rows//2]
 
-end = grid[cols-30][rows - cols//2]
-start.wall = False
-end.wall = False
-
 queue.append(start)
 start.visited = True
 
 
 def main():
     start = grid[cols//2][rows//2]
+    end = grid[cols-30][rows - cols//2]
+
     found = False
     searchStarted = False
 
@@ -80,15 +74,20 @@ def main():
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 searchStarted = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed(3):
+                    position = pygame.mouse.get_pos()
+                    print(position[0])
+                    end = grid[position[0]//w][position[1]//h]
+
         if searchStarted:
             if len(queue) > 0:
                 current = queue.popleft()
                 if current == end:
                     print("Found")
                     found = True
-                    return
 
-                if current is not None:
+                if current is not None and found == False:
                     for i in current.neighbors:
                         if not i.visited:
                             i.visited = True
