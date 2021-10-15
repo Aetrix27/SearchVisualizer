@@ -1,7 +1,6 @@
 
 import sys
 from collections import deque
-
 import pygame
 
 size = (width, height) = 640, 480
@@ -26,9 +25,6 @@ class Grid:
     def __init__(self, i, j):
         self.x = i
         self.y = j
-        self.f = 0
-        self.g = 0
-        self.h = 0
         self.neighbors = []
 
         self.visited = False
@@ -51,12 +47,6 @@ class Grid:
             self.neighbors.append(grid[self.x][self.y-1])
 
 
-def place(pos):
-    i = pos[0] // w
-    j = pos[1] // h
-    return w, h
-
-
 for i in range(cols):
     arr = []
     for j in range(rows):
@@ -70,7 +60,7 @@ for i in range(cols):
 
 start = grid[cols//2][rows//2]
 
-end = grid[cols-1][rows - cols//2]
+end = grid[cols-30][rows - cols//2]
 start.wall = False
 end.wall = False
 
@@ -80,8 +70,7 @@ start.visited = True
 
 def main():
     start = grid[cols//2][rows//2]
-    flag = False
-    noflag = True
+    found = False
     searchStarted = False
 
     while True:
@@ -94,16 +83,18 @@ def main():
         if searchStarted:
             if len(queue) > 0:
                 current = queue.popleft()
-                # if current == end:
-                #    return
-                # if queue[0]+1 is not None:
-                #    current = grid[row+1][col]
-                #queue.visited = True
-                # if flag == False:
-                for i in current.neighbors:
-                    if not i.visited:
-                        i.visited = True
-                        queue.append(i)
+                if current == end:
+                    print("Found")
+                    found = True
+                    return
+
+                if current is not None:
+                    for i in current.neighbors:
+                        if not i.visited:
+                            i.visited = True
+                            queue.append(i)
+            elif found == False:
+                print("No Solution")
 
         window.fill((0, 20, 20))
         for i in range(cols):
