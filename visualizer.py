@@ -19,7 +19,7 @@ queue = deque()
 visited = []
 path = []
 
-
+# Initializes grid class with cells, where each cell can be accessed
 class Grid:
     def __init__(self, i, j):
         self.x = i
@@ -28,9 +28,11 @@ class Grid:
 
         self.visited = False
         self.prev = None
+    # Show the grid
 
     def show(self, window, col):
         pygame.draw.rect(window, col, (self.x*w, self.y*h, w-1, h-1))
+    # Add all grid locations
 
     def add_neighbors(self, grid):
         if self.x < cols - 1:
@@ -61,7 +63,6 @@ start.visited = True
 
 
 def main():
-    start = grid[cols//2][rows//2]
     end = grid[cols-30][rows - cols//2]
 
     found = False
@@ -74,12 +75,14 @@ def main():
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 searchStarted = True
+            # If user clicks on cell, the end node is now the chosen cell
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed(3):
                     position = pygame.mouse.get_pos()
                     print(position[0])
                     end = grid[position[0]//w][position[1]//h]
 
+        # performs BFS by checking each level
         if searchStarted:
             if len(queue) > 0:
                 current = queue.popleft()
